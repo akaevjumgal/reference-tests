@@ -4,15 +4,11 @@ import {payload, people} from '../serialization';
 
 describe('payload', function () {
 
-  // in this tests try to use as least as possible number of assignments
+    // in this tests try to use as least as possible number of assignments
 
   it('car quantity with owners older than 20 years', function () {
 
-    let answer;
-
-    /**
-     * you code here
-     */
+    let answer = payload.data.map((people) => people.owners.map((item) => item.personalInfo.age)).filter(age => age > 20).length
 
     assert.equal(answer, 2);
 
@@ -20,11 +16,7 @@ describe('payload', function () {
 
   it('all car colors separated by comma without duplicates', function () {
 
-    let answer;
-
-    /**
-     * you code here
-     */
+    let answer = Array.from(new Set([...payload.data.filter(it => it.type === "Car").map(item => item.attrs.color)])).join(",")
 
     assert.equal(answer, 'red,yellow');
 
@@ -32,49 +24,33 @@ describe('payload', function () {
 
   it('id\'s of all vehicles separated by comma', function () {
 
-    let answer;
+     let answer = payload.data.filter(val => val.type !== "Gun").map(symbol => symbol.id).join()
 
-    /**
-     * you code here
-     */
+     assert.equal(answer, '1,3,6,4,2');
 
-    assert.equal(answer, '1,3,6,4,2');
+   });
 
-  });
+   it('summary price of all items', function () {
 
-  it('summary price of all items', function () {
+     let answer = payload.data.map(it => it.attrs.price).reduce((a, b) => a + b);
 
-    let answer;
+     assert.equal(answer, 42800);
 
-    /**
-     * you code here
-     */
+   });
 
-    assert.equal(answer, 42800);
+   it('price of all things john has own', function () {
 
-  });
+     let answer;
 
-  it('price of all things john has own', function () {
-
-    let answer;
-
-    /**
-     * you code here
-     */
-
-    assert.equal(answer, 25000);
+     assert.equal(answer, 25000);
 
   });
 
-  it('all cities', function () {
+   it('all cities', function () {
 
-    let answer;
+     let answer = Object.values(people).map(it => it.cities).join()
 
-    /**
-     * you code here
-     */
+     assert.equal(answer, 'New York,Boston,Columbia,Rapture');
 
-    assert.equal(answer, 'New York,Boston,Columbia,Rapture');
-
-  });
+   });
 });
